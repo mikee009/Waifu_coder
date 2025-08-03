@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waifu Coder - AI Personas that Code with Style</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-effects">
+        <div class="grid-overlay"></div>
+        <div class="floating-particles"></div>
+        <div class="neon-glow"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo">
+                <h1 class="logo-text glitch" data-text="WAIFU CODER">WAIFU CODER</h1>
+                <span class="logo-subtitle">Where Code meets Kawaii</span>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-tab="personas">Personas</button>
+                <button class="nav-btn" data-tab="ide">IDE</button>
+                <button class="nav-btn" data-tab="chat">Chat</button>
+                <button class="nav-btn" data-tab="settings">Settings</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="persona-selector">
+                <h3>Active Persona</h3>
+                <div class="current-persona" id="currentPersona">
+                    <div class="persona-avatar">
+                        <img src="data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='gradient' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2300d4ff'/%3E%3Cstop offset='50%25' stop-color='%23ff6b9d'/%3E%3Cstop offset='100%25' stop-color='%23c77dff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='50' fill='url(%23gradient)'/%3E%3Ccircle cx='50' cy='35' r='15' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='75' rx='25' ry='20' fill='white' opacity='0.9'/%3E%3Ccircle cx='42' cy='30' r='2' fill='%23333'/%3E%3Ccircle cx='58' cy='30' r='2' fill='%23333'/%3E%3Cpath d='M40 40 Q50 50 60 40' stroke='%23333' stroke-width='2' fill='none'/%3E%3Ctext x='50' y='90' text-anchor='middle' fill='white' font-family='monospace' font-size='8'%3E♡%3C/text%3E%3C/svg%3E" alt="Default" id="currentAvatar">
+                    </div>
+                    <div class="persona-info">
+                        <span class="persona-name" id="currentName">No Persona Selected</span>
+                        <span class="persona-type" id="currentType">Select or Create One</span>
+                    </div>
+                </div>
+                <button class="create-persona-btn" id="createPersonaBtn">
+                    <span>+</span> Create New Waifu
+                </button>
+            </div>
+
+            <div class="persona-list" id="personaList">
+                <h3>Your Waifus</h3>
+                <div class="personas-container" id="personasContainer">
+                    <!-- Personas will be dynamically added here -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Personas Tab -->
+            <div class="tab-content active" id="personas-tab">
+                <div class="personas-manager">
+                    <div class="personas-header">
+                        <h2>Manage Your AI Waifus</h2>
+                        <p>Create unique coding companions with distinct personalities</p>
+                    </div>
+                    
+                    <div class="persona-grid" id="personaGrid">
+                        <!-- Persona cards will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- IDE Tab -->
+            <div class="tab-content" id="ide-tab">
+                <div class="ide-container">
+                    <div class="ide-toolbar">
+                        <div class="file-tabs" id="fileTabs">
+                            <div class="file-tab active" data-file="main.js">
+                                <span>main.js</span>
+                                <button class="close-tab">×</button>
+                            </div>
+                        </div>
+                        <div class="ide-controls">
+                            <button class="ide-btn" id="newFileBtn">New File</button>
+                            <button class="ide-btn" id="runCodeBtn">Run Code</button>
+                            <button class="ide-btn" id="askWaifuBtn">Ask Waifu</button>
+                        </div>
+                    </div>
+                    
+                    <div class="ide-main">
+                        <div class="code-editor">
+                            <textarea id="codeEditor" placeholder="// Your waifu is ready to help you code..."></textarea>
+                        </div>
+                        <div class="ide-chat-panel">
+                            <div class="ide-chat-header">
+                                <span>💬 Chat with Waifu</span>
+                                <button class="chat-btn" id="clearIdeChatBtn">Clear</button>
+                            </div>
+                            <div class="ide-chat-messages" id="ideChatMessages">
+                                <div class="welcome-message">
+                                    <p>✨ Ask your waifu for coding help! ✨</p>
+                                </div>
+                            </div>
+                            <div class="ide-chat-input">
+                                <input type="text" id="ideChatInput" placeholder="Ask your waifu about code...">
+                                <button id="ideAskBtn">Ask</button>
+                            </div>
+                        </div>
+                        <div class="output-panel">
+                            <div class="output-header">
+                                <span>Output</span>
+                                <button class="clear-output">Clear</button>
+                            </div>
+                            <div class="output-content" id="outputContent">
+                                <div class="welcome-message">
+                                    <p>✨ Welcome to Waifu Coder IDE! ✨</p>
+                                    <p>Select a persona and start coding with your AI companion!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Tab -->
+            <div class="tab-content" id="chat-tab">
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="chat-persona-info">
+                            <img src="data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='gradient' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2300d4ff'/%3E%3Cstop offset='50%25' stop-color='%23ff6b9d'/%3E%3Cstop offset='100%25' stop-color='%23c77dff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='50' fill='url(%23gradient)'/%3E%3Ccircle cx='50' cy='35' r='15' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='75' rx='25' ry='20' fill='white' opacity='0.9'/%3E%3Ccircle cx='42' cy='30' r='2' fill='%23333'/%3E%3Ccircle cx='58' cy='30' r='2' fill='%23333'/%3E%3Cpath d='M40 40 Q50 50 60 40' stroke='%23333' stroke-width='2' fill='none'/%3E%3Ctext x='50' y='90' text-anchor='middle' fill='white' font-family='monospace' font-size='8'%3E♡%3C/text%3E%3C/svg%3E" alt="Persona" id="chatAvatar">
+                            <div>
+                                <h3 id="chatPersonaName">Select a Persona</h3>
+                                <span id="chatPersonaStatus">Offline</span>
+                            </div>
+                        </div>
+                        <div class="chat-controls">
+                            <button class="chat-btn" id="clearChatBtn">Clear Chat</button>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="welcome-chat">
+                            <p>Select a waifu persona to start chatting and coding together! (´｡• ᵕ •｡`) ♡</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <div class="chat-input">
+                            <textarea id="chatInput" placeholder="Type your message to your waifu..." rows="3"></textarea>
+                            <button class="send-btn" id="sendBtn">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="tab-content" id="settings-tab">
+                <div class="settings-container">
+                    <h2>Settings</h2>
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <h3>AI Configuration</h3>
+                            <div class="setting-item">
+                                <label for="apiKey">Cerebras API Key:</label>
+                                <input type="password" id="apiKey" placeholder="Enter your API key">
+                                <button class="save-btn" id="saveApiKey">Save</button>
+                            </div>
+                            <div class="setting-item">
+                                <label for="modelSelect">Model:</label>
+                                <select id="modelSelect">
+                                    <option value="llama-4-scout-17b-16e-instruct">Llama 4 Scout 17B</option>
+                                    <option value="llama3.1-70b">Llama 3.1 70B</option>
+                                    <option value="llama3.1-8b">Llama 3.1 8B</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <h3>Theme</h3>
+                            <div class="setting-item">
+                                <label for="themeSelect">Color Scheme:</label>
+                                <select id="themeSelect">
+                                    <option value="platinum">Platinum (Default)</option>
+                                    <option value="neon">Neon Dreams</option>
+                                    <option value="cyberpunk">Cyberpunk</option>
+                                </select>
+                            </div>
+                            <div class="setting-item">
+                                <label for="animationsToggle">Animations:</label>
+                                <input type="checkbox" id="animationsToggle" checked>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Create Persona Modal -->
+    <div class="modal" id="createPersonaModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Waifu Persona</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="createPersonaForm">
+                    <div class="form-group">
+                        <label for="personaName">Name:</label>
+                        <input type="text" id="personaName" placeholder="e.g., Sakura-chan" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="personaType">Personality Type:</label>
+                        <select id="personaType" required>
+                            <option value="">Select Type</option>
+                            <option value="tsundere">Tsundere Coder</option>
+                            <option value="kuudere">Kuudere Architect</option>
+                            <option value="dandere">Dandere Debugger</option>
+                            <option value="yandere">Yandere Optimizer</option>
+                            <option value="genki">Genki Full-Stack</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="personaAvatar">Avatar Image:</label>
+                        <input type="file" id="personaAvatar" accept="image/*">
+                        <div class="avatar-preview" id="avatarPreview"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="personaPrompt">System Prompt:</label>
+                        <textarea id="personaPrompt" rows="8" placeholder="Define your waifu's personality, coding style, and quirks..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="personaSkills">Coding Specialties:</label>
+                        <div class="skills-container">
+                            <label><input type="checkbox" value="javascript"> JavaScript</label>
+                            <label><input type="checkbox" value="python"> Python</label>
+                            <label><input type="checkbox" value="react"> React</label>
+                            <label><input type="checkbox" value="nodejs"> Node.js</label>
+                            <label><input type="checkbox" value="css"> CSS</label>
+                            <label><input type="checkbox" value="html"> HTML</label>
+                            <label><input type="checkbox" value="backend"> Backend</label>
+                            <label><input type="checkbox" value="frontend"> Frontend</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" id="cancelCreateBtn">Cancel</button>
+                        <button type="submit" class="create-btn">Create Waifu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Initializing Waifu Coder...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+    <script src="scripts/config.js"></script>
+    <script src="scripts/personas.js"></script>
+    <script src="scripts/ide.js"></script>
+    <script src="scripts/chat.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
